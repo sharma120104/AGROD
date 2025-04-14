@@ -171,6 +171,11 @@ function moveDrone(dx, dy) {
     if (newX >= 0 && newX < gridSize && newY >= 0 && newY < gridSize) {
         dronePosition.x = newX;
         dronePosition.y = newY;
+        
+        // Update user progress tracking for hints
+        if (typeof userProgress !== 'undefined') {
+            userProgress.movedDrone = true;
+        }
     }
 }
 
@@ -198,6 +203,21 @@ function sprayPesticide() {
         // Remove hotspot (treat the disease)
         hotspots = hotspots.filter(h => h.x !== dronePosition.x || h.y !== dronePosition.y);
         showAlert(`Successfully sprayed ${formatPesticideName(pesticide)} on diseased area!`, 'success');
+        
+        // Update user progress for hints
+        if (typeof userProgress !== 'undefined') {
+            userProgress.sprayedPesticide = true;
+        }
+        
+        // Show congratulations if all hotspots are treated
+        if (hotspots.length === 0) {
+            setTimeout(() => {
+                showAlert('Great job! You\'ve successfully treated all diseased areas in this field.', 'success');
+            }, 1000);
+        }
+    } else {
+        // Inform user they're not over a disease spot
+        showAlert('No disease detected at this location. Move to a yellow spot to spray effectively.', 'info');
     }
 }
 
