@@ -259,7 +259,57 @@ def compare_images(uploaded_image, crop_type):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # Get datasets and counts for the home page
+    datasets = {}
+    with app.app_context():
+        cotton_dataset = DiseaseDataset.query.filter_by(crop_type='cotton').first()
+        coconut_dataset = DiseaseDataset.query.filter_by(crop_type='coconut').first()
+        
+        if cotton_dataset:
+            datasets['cotton'] = {
+                'name': cotton_dataset.name,
+                'sample_count': DiseaseSample.query.filter_by(dataset_id=cotton_dataset.id).count(),
+                'source': cotton_dataset.source
+            }
+            
+        if coconut_dataset:
+            datasets['coconut'] = {
+                'name': coconut_dataset.name,
+                'sample_count': DiseaseSample.query.filter_by(dataset_id=coconut_dataset.id).count(),
+                'source': coconut_dataset.source
+            }
+    
+    return render_template('index.html', datasets=datasets)
+
+@app.route('/datasets')
+def view_datasets():
+    """View all available disease datasets"""
+    with app.app_context():
+        datasets = DiseaseDataset.query.all()
+        datasets_with_samples = []
+        
+        for dataset in datasets:
+            samples = DiseaseSample.query.filter_by(dataset_id=dataset.id).all()
+            samples_with_treatments = []
+            
+            for sample in samples:
+                treatments = TreatmentRecommendation.query.filter_by(disease_id=sample.id).all()
+                samples_with_treatments.append({
+                    'sample': sample,
+                    'treatments': treatments
+                })
+            
+            datasets_with_samples.append({
+                'dataset': dataset,
+                'samples': samples_with_treatments
+            })
+        
+        # Get detection history
+        history = DetectionHistory.query.order_by(DetectionHistory.timestamp.desc()).limit(10).all()
+        
+        return render_template('datasets.html', 
+                              datasets=datasets_with_samples, 
+                              history=history)
 
 @app.route('/detect', methods=['POST'])
 def detect_disease():
