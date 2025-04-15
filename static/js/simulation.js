@@ -12,6 +12,7 @@ let sprayRadius = 0;
 let sprayFrames = 0;
 let spraying = false;
 let pesticide = '';
+let isMaturityAnalysis = false; // Initialize to false by default
 
 // DOM elements for control buttons
 const moveUpBtn = document.getElementById('moveUp');

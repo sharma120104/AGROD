@@ -64,31 +64,7 @@
                     <h5><i class="fas fa-bug me-2"></i>Disease Detection</h5>
                 </div>
                 <div class="panel-body">
-                    <div id="diseaseInfo" class="d-none">
-                        <div class="detection-results-header">
-                            <h6>Disease Detection Results</h6>
-                            <p>Results will appear after image analysis.</p>
-                        </div>
-                        
-                        <div class="disease-section">
-                            <div class="disease-header">
-                                <h6 id="diseaseName">No Disease Detected</h6>
-                                <span class="match-badge" id="matchConfidence">0% Match</span>
-                            </div>
-                            <p id="diseaseDescription">Upload and analyze an image to detect diseases.</p>
-                            
-                            <div class="my-2">
-                                <span>Severity:</span> <span class="severity-badge" id="diseaseSeverity">None</span>
-                            </div>
-                        </div>
-                        
-                        <h6>Recommended Treatments:</h6>
-                        
-                        <div id="pesticideList">
-                            <!-- Treatments will be dynamically inserted here -->
-                        </div>
-                    </div>
-                    
+                    <!-- Disease detection results will be added dynamically via JS after image upload -->
                     <div id="noDetectionInfo" class="text-center py-5">
                         <i class="fas fa-seedling text-success fa-4x mb-3"></i>
                         <h5>No Analysis Yet</h5>
@@ -102,7 +78,7 @@
         <div class="col-md-4">
             <div class="panel-container right-panel">
                 <div class="panel-header d-flex justify-content-between align-items-center">
-                    <h5><i class="fas fa-drone me-2"></i>Disease Treatment Simulation</h5>
+                    <h5><i class="fas fa-drone me-2"></i><span id="simulationTitle">Disease Treatment Simulation</span></h5>
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="simulationToggle">
                         <label class="form-check-label small" for="simulationToggle">Activate</label>

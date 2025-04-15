@@ -49,6 +49,43 @@ let userProgress = {
 // Current hint index
 let currentHintIndex = 0;
 
+// Alert function used by both disease_detection.js and simulation.js
+function showAlert(message, type = 'info') {
+    // Create alert element
+    const alertElement = document.createElement('div');
+    alertElement.className = `alert alert-${type} alert-dismissible fade show`;
+    alertElement.setAttribute('role', 'alert');
+    
+    // Alert content
+    alertElement.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    
+    // Find alert container
+    const alertContainer = document.getElementById('alertContainer');
+    if (!alertContainer) {
+        // Create container if it doesn't exist
+        const container = document.createElement('div');
+        container.id = 'alertContainer';
+        container.className = 'position-fixed bottom-0 end-0 p-3';
+        container.style.zIndex = '5';
+        document.body.appendChild(container);
+        container.appendChild(alertElement);
+    } else {
+        // Add to existing container
+        alertContainer.appendChild(alertElement);
+    }
+    
+    // Auto dismiss after 3 seconds
+    setTimeout(() => {
+        alertElement.classList.remove('show');
+        setTimeout(() => {
+            alertElement.remove();
+        }, 150);
+    }, 3000);
+}
+
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
     // Image Upload Preview
