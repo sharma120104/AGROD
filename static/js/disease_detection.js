@@ -26,10 +26,14 @@ const hints = {
     cropType: "Make sure to select the right crop type before analysis.",
     analysis: "After analysis, you'll see potential diseases with confidence scores.",
     coconutMaturity: "For coconut trees, the system will analyze maturity level, count coconuts, and indicate harvest readiness.",
-    simulation: "Activate the drone simulation to practice applying pesticides.",
-    droneControls: "Use arrow keys or buttons to move the drone to yellow disease spots.",
+    simulation: "Activate the drone simulation to practice applying pesticides or inspect coconut trees.",
+    droneControls: "Use arrow keys or buttons to move the drone over the field.",
     pesticide: "Select an appropriate pesticide before spraying.",
-    spray: "Position the drone over a yellow disease spot and click spray."
+    spray: "Position the drone over a yellow disease spot and click spray.",
+    inspectionTool: "Select an inspection tool to analyze coconut tree maturity and harvest readiness.",
+    coconutInspection: "Move the drone to each coconut tree and press the inspection button to check its maturity level.",
+    maturityLevels: "Tree maturity is shown with colors: blue (immature), orange (mature), green (ready for harvest).",
+    coconutCount: "The analysis provides the estimated number of coconuts on each tree."
 };
 
 // Track user progress
@@ -319,9 +323,23 @@ function processDetectionResults(data) {
         updatePesticideDropdown(allPesticides);
     }
     
-    // Enable simulation if diseases were detected
-    if (!detectedDiseases.includes('healthy') && !detectedDiseases.includes('error')) {
+    // Enable simulation if diseases were detected or if maturity analysis is available
+    const hasMaturityAnalysis = detectedDiseases.includes('coconut_maturity_analysis');
+    const hasDisease = !detectedDiseases.includes('healthy') && !detectedDiseases.includes('error');
+    
+    if (hasDisease || hasMaturityAnalysis) {
         simulationToggle.disabled = false;
+        
+        // Update the simulation description based on the type of analysis
+        if (hasMaturityAnalysis) {
+            document.getElementById('simulationDescription').textContent = 
+                'Activate drone simulation to inspect coconut trees and view their maturity levels';
+            document.getElementById('simulationTitle').textContent = 'Coconut Tree Analysis';
+        } else {
+            document.getElementById('simulationDescription').textContent = 
+                'Activate drone simulation to practice applying pesticides to diseased areas';
+            document.getElementById('simulationTitle').textContent = 'Disease Treatment Simulation';
+        }
     } else {
         simulationToggle.disabled = true;
     }
@@ -340,20 +358,49 @@ function processDetectionResults(data) {
 
 // Update pesticide dropdown
 function updatePesticideDropdown(pesticides) {
-    pesticideSelect.innerHTML = '<option value="">Select pesticide...</option>';
+    // Check if this is a coconut maturity analysis
+    const hasMaturityAnalysis = detectedDiseases.includes('coconut_maturity_analysis');
     
-    if (pesticides && pesticides.length > 0) {
-        pesticides.forEach((pesticide, index) => {
+    if (hasMaturityAnalysis) {
+        // For coconut maturity analysis, the dropdown is for analysis tools instead of pesticides
+        pesticideSelect.innerHTML = '<option value="">Select inspection tool...</option>';
+        
+        // Add inspection tools
+        const inspectionTools = [
+            { value: 'visual_scanner', name: 'Visual Maturity Scanner' },
+            { value: 'coconut_counter', name: 'Coconut Counter Tool' },
+            { value: 'harvest_analyzer', name: 'Harvest Readiness Analyzer' }
+        ];
+        
+        inspectionTools.forEach(tool => {
             const option = document.createElement('option');
-            option.value = pesticide.name.toLowerCase().replace(/\s+/g, '_');
-            option.textContent = pesticide.name;
+            option.value = tool.value;
+            option.textContent = tool.name;
             pesticideSelect.appendChild(option);
         });
+        
+        // Update label for the dropdown
+        document.querySelector('label[for="pesticideSelect"]').textContent = 'Inspection Tool:';
     } else {
-        const option = document.createElement('option');
-        option.value = 'generic';
-        option.textContent = 'Generic Pesticide';
-        pesticideSelect.appendChild(option);
+        // Regular pesticide dropdown for disease treatment
+        pesticideSelect.innerHTML = '<option value="">Select pesticide...</option>';
+        
+        // Update label for the dropdown
+        document.querySelector('label[for="pesticideSelect"]').textContent = 'Pesticide:';
+        
+        if (pesticides && pesticides.length > 0) {
+            pesticides.forEach((pesticide, index) => {
+                const option = document.createElement('option');
+                option.value = pesticide.name.toLowerCase().replace(/\s+/g, '_');
+                option.textContent = pesticide.name;
+                pesticideSelect.appendChild(option);
+            });
+        } else {
+            const option = document.createElement('option');
+            option.value = 'generic';
+            option.textContent = 'Generic Pesticide';
+            pesticideSelect.appendChild(option);
+        }
     }
 }
 
