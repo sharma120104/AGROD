@@ -1,12 +1,43 @@
 /* Custom styling enhancements */
 
+/* Global styling for improved readability */
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+}
+
+/* Typography improvements */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1a3d66;
+}
+
+p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+/* Container padding */
+.container {
+    padding: 1.5rem 15px;
+}
+
+/* Header and footer enhancement */
+header, footer {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 /* Canvas styling */
 #simulationCanvas {
-    background-color: var(--bs-light);
+    background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 100%;
     height: auto;
     border: 1px solid #dee2e6;
+    border-radius: 8px;
 }
 
 /* Button styling for drone controls */
@@ -14,49 +45,132 @@
     width: 50px;
     height: 50px;
     padding: 10px;
-    margin: 2px;
+    margin: 4px;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+#droneControls .btn-outline-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #droneControls #spray {
     width: 100px;
     height: 50px;
+    font-weight: 600;
 }
 
 /* Image preview container */
 #previewImage {
     max-height: 200px;
     object-fit: contain;
-    background-color: var(--bs-light);
+    background-color: #fff;
     border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 5px;
 }
 
 /* Card styling */
 .card {
-    border-radius: 10px;
-    border: 1px solid #dee2e6;
-    background-color: var(--bs-white);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
-    background-color: rgba(0, 0, 0, 0.03);
-    border-bottom: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    color: #1a3d66;
+}
+
+.card-body {
+    padding: 1.5rem;
 }
 
 /* Loading indicator */
 #loadingIndicator {
     padding: 20px;
+    color: #666;
 }
 
 /* Pesticide list styling */
 #pesticideList .list-group-item {
-    background-color: var(--bs-white);
-    border-color: #dee2e6;
+    background-color: #fff;
+    border-color: #e9ecef;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0.25rem;
+    border-radius: 0.5rem;
+}
+
+#pesticideList .list-group-item:hover {
+    background-color: #f8f9fa;
 }
 
 /* Empty state icons */
 #noDetectionInfo, #noSimulationInfo {
-    color: var(--bs-secondary);
+    color: #6c757d;
+    font-size: 5rem;
+    opacity: 0.5;
+    margin: 2rem 0;
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.alert-info {
+    border-left-color: #17a2b8;
+}
+
+.alert-success {
+    border-left-color: #28a745;
+}
+
+.alert-warning {
+    border-left-color: #ffc107;
+}
+
+.alert-danger {
+    border-left-color: #dc3545;
+}
+
+/* Button styling */
+.btn {
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: #1a73e8;
+    border-color: #1a73e8;
+}
+
+.btn-primary:hover {
+    background-color: #1557b0;
+    border-color: #1557b0;
+}
+
+/* Badge styling */
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.75em;
+    border-radius: 6px;
 }
 
 /* Responsive adjustments */
@@ -64,5 +178,23 @@
     #simulationCanvas {
         width: 250px;
         height: 250px;
+    }
+    
+    .container {
+        padding: 1rem 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
     }
 }
