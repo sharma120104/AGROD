@@ -25,6 +25,7 @@ const hints = {
     upload: "Try uploading a photo of your crop. Photos with good lighting will provide better results.",
     cropType: "Make sure to select the right crop type before analysis.",
     analysis: "After analysis, you'll see potential diseases with confidence scores.",
+    coconutMaturity: "For coconut trees, the system will analyze maturity level, count coconuts, and indicate harvest readiness.",
     simulation: "Activate the drone simulation to practice applying pesticides.",
     droneControls: "Use arrow keys or buttons to move the drone to yellow disease spots.",
     pesticide: "Select an appropriate pesticide before spraying.",
@@ -196,6 +197,54 @@ function processDetectionResults(data) {
             description.textContent = diseaseData.description;
             diseaseCard.appendChild(description);
             
+            // Check if this is coconut maturity analysis
+            if (diseaseData.maturity_data) {
+                const maturityData = diseaseData.maturity_data;
+                
+                // Create maturity info box
+                const maturityBox = document.createElement('div');
+                maturityBox.className = 'card bg-dark mb-3';
+                
+                // Create card header
+                const maturityHeader = document.createElement('div');
+                maturityHeader.className = 'card-header py-2';
+                maturityHeader.innerHTML = '<strong>Maturity Analysis</strong>';
+                maturityBox.appendChild(maturityHeader);
+                
+                // Create card body
+                const maturityBody = document.createElement('div');
+                maturityBody.className = 'card-body';
+                
+                // Format maturity level with appropriate badge
+                let maturityBadgeClass = 'bg-secondary';
+                if (maturityData.maturity_level === 'immature') {
+                    maturityBadgeClass = 'bg-info';
+                } else if (maturityData.maturity_level === 'mature') {
+                    maturityBadgeClass = 'bg-warning';
+                } else if (maturityData.maturity_level === 'ready_for_harvest') {
+                    maturityBadgeClass = 'bg-success';
+                }
+                
+                // Create maturity info
+                const maturityInfo = document.createElement('div');
+                maturityInfo.className = 'mb-2';
+                maturityInfo.innerHTML = `
+                    <p class="mb-2"><strong>Maturity Level:</strong> 
+                    <span class="badge ${maturityBadgeClass}">${maturityData.maturity_level.replace(/_/g, ' ').toUpperCase()}</span></p>
+                    <p class="mb-2"><strong>Coconut Count:</strong> ${maturityData.coconut_count}</p>
+                    <p class="mb-0"><strong>Harvest Status:</strong> 
+                    ${maturityData.harvest_ready 
+                        ? '<span class="badge bg-success">READY FOR HARVEST</span>' 
+                        : '<span class="badge bg-warning">NOT READY</span>'}
+                    </p>
+                `;
+                maturityBody.appendChild(maturityInfo);
+                maturityBox.appendChild(maturityBody);
+                
+                // Add maturity box to disease card
+                diseaseCard.appendChild(maturityBox);
+            }
+            
             // Severity if available
             if (diseaseData.severity) {
                 const severity = document.createElement('p');
@@ -339,11 +388,19 @@ function showNextHint() {
     userProgress.activatedSimulation = simulationToggle.checked;
     userProgress.selectedPesticide = pesticideSelect.value !== '';
     
+    // Get current crop type
+    const cropType = cropTypeSelect.value;
+    
     // Determine appropriate hint based on progress
     if (!userProgress.uploadedImage) {
         hintMessage = hints.upload;
     } else if (!userProgress.ranAnalysis) {
         hintMessage = hints.analysis + ' ' + hints.cropType;
+        
+        // Add coconut maturity hint if coconut is selected
+        if (cropType === 'coconut') {
+            hintMessage += ' ' + hints.coconutMaturity;
+        }
     } else if (!userProgress.activatedSimulation && !detectedDiseases.includes('healthy')) {
         hintMessage = hints.simulation;
     } else if (userProgress.activatedSimulation && !userProgress.selectedPesticide) {

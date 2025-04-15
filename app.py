@@ -482,27 +482,99 @@ def detect_disease():
 def generate_field_data(diseases, crop_type):
     """
     Generate field representation with disease hotspots
+    For coconut trees, also can show maturity visualization
     """
     # Create a 10x10 grid field
     field_size = 10
     field = [[0 for _ in range(field_size)] for _ in range(field_size)]
     
-    # If plant is healthy, return empty field
-    if diseases == ["healthy"] or diseases == ["error"]:
+    # Check if we have a maturity analysis
+    has_maturity_analysis = "coconut_maturity_analysis" in diseases
+    
+    # If plant is healthy or only has maturity analysis, return special field for coconuts
+    if (diseases == ["healthy"] or diseases == ["error"]) and crop_type != "coconut":
         return {
             "grid": field,
             "hotspots": []
         }
     
+    # If this is a coconut tree with maturity analysis
+    if crop_type == "coconut" and has_maturity_analysis:
+        # Generate a field with coconut trees at varying maturity levels
+        hotspots = []
+        
+        # Create a more natural pattern for coconut trees
+        num_coconuts = random.randint(6, 10)  # Reasonable number of coconut trees in view
+        
+        # Make the first tree the analyzed one 
+        # (in real app we'd use actual image analysis to place these accurately)
+        center_x, center_y = field_size // 2, field_size // 2
+        
+        # Place the first tree in center
+        field[center_y][center_x] = 2  # 2 means "mature" coconut
+        hotspots.append({
+            "x": center_x,
+            "y": center_y,
+            "disease": "coconut_maturity_analysis", 
+            "maturity": "ready_for_harvest"
+        })
+        
+        # Place other coconut trees in a pattern around it
+        maturity_levels = ["immature", "mature", "ready_for_harvest"]
+        weights = [0.3, 0.4, 0.3]  # Probability distribution
+        
+        for _ in range(num_coconuts - 1):
+            # Find a position not too close to other trees
+            while True:
+                x = np.random.randint(0, field_size)
+                y = np.random.randint(0, field_size)
+                
+                # Check if position is empty and not too close to other trees
+                if field[y][x] == 0 and ((x - center_x)**2 + (y - center_y)**2) > 4:
+                    # Choose maturity level with weighted probability
+                    maturity = random.choices(maturity_levels, weights=weights)[0]
+                    
+                    if maturity == "immature":
+                        field[y][x] = 1  # 1 means "immature" coconut
+                    elif maturity == "mature":
+                        field[y][x] = 2  # 2 means "mature" coconut
+                    else:
+                        field[y][x] = 3  # 3 means "ready_for_harvest" coconut
+                    
+                    hotspots.append({
+                        "x": x,
+                        "y": y,
+                        "disease": "none",
+                        "maturity": maturity
+                    })
+                    break
+        
+        return {
+            "grid": field,
+            "hotspots": hotspots,
+            "is_maturity_analysis": True
+        }
+        
+    # For disease visualization (default case)
+    # Filter out maturity_analysis from disease hotspots
+    disease_list = [d for d in diseases if d != "coconut_maturity_analysis" and d != "healthy" and d != "error"]
+    
+    # If no actual diseases left, return empty field
+    if not disease_list:
+        return {
+            "grid": field,
+            "hotspots": [] 
+        }
+    
     # Generate random disease hotspots
-    num_hotspots = min(len(diseases) * 2, 5)  # 2 hotspots per disease, max 5
+    num_hotspots = min(len(disease_list) * 2, 5)  # 2 hotspots per disease, max 5
     hotspots = []
     
     for _ in range(num_hotspots):
         x = np.random.randint(0, field_size)
         y = np.random.randint(0, field_size)
-        disease_index = np.random.randint(0, len(diseases))
-        disease_name = diseases[disease_index]
+        disease_index = np.random.randint(0, len(disease_list))
+        disease_name = disease_list[disease_index]
         
         # Mark the hotspot
         field[y][x] = 1
@@ -515,7 +587,8 @@ def generate_field_data(diseases, crop_type):
     
     return {
         "grid": field,
-        "hotspots": hotspots
+        "hotspots": hotspots,
+        "is_maturity_analysis": False
     }
 
 if __name__ == '__main__':
