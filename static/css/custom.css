@@ -33,14 +33,23 @@ header, footer {
 /* App container styling - creates dark-mode style layout with white panels */
 .app-container {
     padding: 1rem 0;
+    background-color: #1a1d21;
+    min-height: calc(100vh - 150px);
+}
+
+/* Row styling to ensure panels stay side by side */
+.row.g-0 {
+    display: flex;
+    flex-wrap: nowrap;
+    min-height: 600px;
 }
 
 /* Panel styling to match the image */
 .panel-container {
     background-color: #fff;
     border-radius: 0;
-    border: 1px solid #dee2e6;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border: 1px solid #374151;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     margin-bottom: 0;
     height: 100%;
     display: flex;
@@ -53,6 +62,7 @@ header, footer {
     padding: 0.75rem 1rem;
     font-weight: 500;
     border-bottom: 1px solid #374151;
+    text-align: center;
 }
 
 .panel-header h5 {
@@ -65,11 +75,27 @@ header, footer {
     padding: 1rem;
     flex-grow: 1;
     overflow-y: auto;
+    background-color: #fff;
 }
 
 /* Left panel customization */
 .left-panel {
     border-right: none;
+    text-align: center;
+}
+
+.left-panel .panel-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.left-panel .form-label {
+    align-self: flex-start;
+}
+
+.left-panel .mb-3 {
+    width: 100%;
 }
 
 /* Middle panel customization */
@@ -253,20 +279,55 @@ header, footer {
         height: 200px;
     }
     
+    /* Keep panels side by side even on smaller screens */
     .row.g-0 {
-        display: block;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
     }
     
-    .col-md-3, .col-md-5, .col-md-4 {
-        width: 100%;
-        margin-bottom: 1rem;
+    .col-md-3 {
+        min-width: 250px;
+        flex: 0 0 auto;
     }
     
+    .col-md-5 {
+        min-width: 350px;
+        flex: 0 0 auto;
+    }
+    
+    .col-md-4 {
+        min-width: 300px;
+        flex: 0 0 auto;
+    }
+    
+    /* Keep panel design consistent */
     .panel-container {
-        border: 1px solid #dee2e6;
+        border: 1px solid #374151;
+        margin-right: 0;
     }
     
-    .left-panel, .middle-panel, .right-panel {
-        border: 1px solid #dee2e6;
+    .panel-body {
+        padding: 0.75rem;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 576px) {
+    body {
+        font-size: 0.85rem;
+    }
+    
+    .container {
+        padding: 0.5rem 10px;
+    }
+    
+    .panel-header h5 {
+        font-size: 0.9rem;
+    }
+    
+    #simulationCanvas {
+        width: 160px;
+        height: 160px;
     }
 }
