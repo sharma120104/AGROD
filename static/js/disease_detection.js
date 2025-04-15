@@ -381,6 +381,14 @@ function updatePesticideDropdown(pesticides) {
         
         // Update label for the dropdown
         document.querySelector('label[for="pesticideSelect"]').textContent = 'Inspection Tool:';
+        
+        // Update spray button to show "Inspect" instead when in coconut analysis mode
+        const sprayButton = document.getElementById('spray');
+        if (sprayButton) {
+            sprayButton.innerHTML = '<i class="fas fa-search me-1"></i> Inspect';
+            sprayButton.classList.remove('btn-danger');
+            sprayButton.classList.add('btn-info');
+        }
     } else {
         // Regular pesticide dropdown for disease treatment
         pesticideSelect.innerHTML = '<option value="">Select pesticide...</option>';
@@ -448,12 +456,23 @@ function showNextHint() {
         if (cropType === 'coconut') {
             hintMessage += ' ' + hints.coconutMaturity;
         }
-    } else if (!userProgress.activatedSimulation && !detectedDiseases.includes('healthy')) {
+    } else if (!userProgress.activatedSimulation && (!detectedDiseases.includes('healthy') || detectedDiseases.includes('coconut_maturity_analysis'))) {
         hintMessage = hints.simulation;
     } else if (userProgress.activatedSimulation && !userProgress.selectedPesticide) {
-        hintMessage = hints.pesticide;
+        // Different hints based on analysis type
+        if (detectedDiseases.includes('coconut_maturity_analysis')) {
+            hintMessage = hints.inspectionTool;
+        } else {
+            hintMessage = hints.pesticide;
+        }
     } else if (userProgress.activatedSimulation && userProgress.selectedPesticide) {
-        hintMessage = hints.droneControls + ' ' + hints.spray;
+        // Different hints based on analysis type
+        if (detectedDiseases.includes('coconut_maturity_analysis')) {
+            const randomMaturityHint = Math.random() < 0.5 ? hints.coconutInspection : hints.maturityLevels;
+            hintMessage = hints.droneControls + ' ' + randomMaturityHint;
+        } else {
+            hintMessage = hints.droneControls + ' ' + hints.spray;
+        }
     } else {
         // Cycle through general hints
         const hintKeys = Object.keys(hints);
