@@ -67,18 +67,18 @@
                     <div id="diseaseInfo" class="d-none">
                         <div class="detection-results-header">
                             <h6>Disease Detection Results</h6>
-                            <p>Multiple potential diseases detected. Ordered by match confidence.</p>
+                            <p>Results will appear after image analysis.</p>
                         </div>
                         
                         <div class="disease-section">
                             <div class="disease-header">
-                                <h6 id="diseaseName">Cotton Leaf Spot</h6>
-                                <span class="match-badge">95% Match</span>
+                                <h6 id="diseaseName">No Disease Detected</h6>
+                                <span class="match-badge" id="matchConfidence">0% Match</span>
                             </div>
-                            <p id="diseaseDescription">Cotton leaf spot is characterized by small, circular spots on leaves that can lead to defoliation if left untreated. The disease is caused by the fungus Alternaria macrospora.</p>
+                            <p id="diseaseDescription">Upload and analyze an image to detect diseases.</p>
                             
                             <div class="my-2">
-                                <span>Severity:</span> <span class="severity-badge" id="diseaseSeverity">Moderate</span>
+                                <span>Severity:</span> <span class="severity-badge" id="diseaseSeverity">None</span>
                             </div>
                         </div>
                         
@@ -86,25 +86,6 @@
                         
                         <div id="pesticideList">
                             <!-- Treatments will be dynamically inserted here -->
-                            <div class="treatment-card">
-                                <h6 class="pesticide-name">Mancozeb</h6>
-                                <p>Broad-spectrum fungicide that prevents spore germination. Apply at 2-3 kg/ha.</p>
-                                <span class="application-rate">Application Rate: See product label</span>
-                            </div>
-                            
-                            <div class="treatment-card">
-                                <h6 class="pesticide-name">Propiconazole</h6>
-                                <p>Systemic fungicide that stops fungal growth. Apply at 500-750 ml/ha.</p>
-                                <span class="application-rate">Application Rate: See product label</span>
-                            </div>
-                        </div>
-                        
-                        <div class="disease-section mt-3">
-                            <div class="disease-header">
-                                <h6>Cotton Boll Rot</h6>
-                                <span class="match-badge">82% Match</span>
-                            </div>
-                            <p>Cotton boll rot causes discoloration and decay of cotton bolls, leading to significant yield losses. It's typically caused by various fungi including Diplodia, Fusarium, and Colletotrichum species.</p>
                         </div>
                     </div>
                     
@@ -173,8 +154,8 @@
                     </div>
                     
                     <div id="noSimulationInfo" class="text-center py-4">
-                        <p class="text-white-50 mb-1">AGROD Inactive</p>
-                        <p id="simulationDescription" class="text-white-50 small">Activate drone simulation to practice applying pesticides to diseased areas</p>
+                        <p class="text-muted mb-1">AGROD Inactive</p>
+                        <p id="simulationDescription" class="text-muted small">Activate drone simulation to practice applying pesticides to diseased areas</p>
                     </div>
                 </div>
             </div>

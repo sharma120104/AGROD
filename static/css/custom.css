@@ -30,10 +30,10 @@ header, footer {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* App container styling - creates dark-mode style layout with panels */
+/* App container styling - creates light-mode style layout with panels */
 .app-container {
     padding: 1rem 0;
-    background-color: #0d1117;
+    background-color: #f8f9fa;
     min-height: calc(100vh - 150px);
 }
 
@@ -44,12 +44,12 @@ header, footer {
     min-height: 600px;
 }
 
-/* Panel styling to match the image */
+/* Panel styling */
 .panel-container {
-    background-color: #161b22;
-    border-radius: 0;
-    border: 1px solid #30363d;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    border-radius: 0.25rem;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     margin-bottom: 0;
     height: 100%;
     display: flex;
@@ -57,25 +57,25 @@ header, footer {
 }
 
 .panel-header {
-    background-color: #0d1117;
-    color: white;
+    background-color: #f8f9fa;
+    color: #212529;
     padding: 0.75rem 1rem;
     font-weight: 500;
-    border-bottom: 1px solid #30363d;
+    border-bottom: 1px solid #dee2e6;
 }
 
 .panel-header h5 {
     margin-bottom: 0;
     font-size: 1rem;
-    color: white;
+    color: #212529;
 }
 
 .panel-body {
     padding: 1rem;
     flex-grow: 1;
     overflow-y: auto;
-    background-color: #161b22;
-    color: #e6edf3;
+    background-color: #ffffff;
+    color: #212529;
 }
 
 /* Left panel customization */
@@ -110,8 +110,8 @@ header, footer {
 
 /* Disease section styling */
 .disease-section {
-    background-color: #0d1117;
-    border: 1px solid #30363d;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
     border-radius: 0.25rem;
     padding: 1rem;
     margin-bottom: 1.5rem;
@@ -121,29 +121,29 @@ header, footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #30363d;
+    border-bottom: 1px solid #dee2e6;
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
 }
 
 .disease-header h6 {
     margin-bottom: 0;
-    color: #e6edf3;
+    color: #212529;
     font-weight: 600;
 }
 
 .detection-results-header {
     margin-bottom: 1rem;
-    color: #8b949e;
+    color: #6c757d;
 }
 
 .detection-results-header h6 {
-    color: #e6edf3;
+    color: #212529;
     margin-bottom: 0.5rem;
 }
 
 .detection-results-header p {
-    color: #8b949e;
+    color: #6c757d;
     font-size: 0.8rem;
 }
 
@@ -152,36 +152,36 @@ header, footer {
 }
 
 .recommended-treatments h6 {
-    color: #e6edf3;
+    color: #212529;
     margin-bottom: 1rem;
 }
 
 /* Treatment card styling */
 .treatment-card {
-    background-color: #0d1117;
-    border: 1px solid #30363d;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
     border-radius: 0.25rem;
     padding: 0.75rem;
     margin-bottom: 0.75rem;
 }
 
 .treatment-card h6 {
-    color: #e6edf3;
+    color: #212529;
     margin-bottom: 0.5rem;
 }
 
 .treatment-card p {
-    color: #8b949e;
+    color: #6c757d;
     font-size: 0.85rem;
     margin-bottom: 0.5rem;
 }
 
 /* Canvas styling */
 #simulationCanvas {
-    background-color: #238636;
+    background-color: #28a745;
     max-width: 100%;
     height: auto;
-    border-radius: 0;
+    border-radius: 0.25rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -192,9 +192,9 @@ header, footer {
     padding: 6px;
     margin: 2px;
     border-radius: 4px;
-    background-color: #21262d;
-    border-color: #30363d;
-    color: #c9d1d9;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+    color: #495057;
 }
 
 #droneControls #spray {
@@ -202,13 +202,13 @@ header, footer {
     height: 36px;
     font-weight: 500;
     font-size: 0.85rem;
-    background-color: #da3633;
-    border-color: #da3633;
+    background-color: #dc3545;
+    border-color: #dc3545;
 }
 
 #droneControls #spray:hover {
-    background-color: #f85149;
-    border-color: #f85149;
+    background-color: #c82333;
+    border-color: #bd2130;
 }
 
 /* Simulation container */
@@ -218,28 +218,27 @@ header, footer {
 
 /* Inactive simulation message */
 #noSimulationInfo {
-    color: #8b949e;
     text-align: center;
     padding: 2rem 0;
 }
 
 #noSimulationInfo p {
-    color: #8b949e;
+    color: #6c757d;
     margin-bottom: 0.5rem;
 }
 
 /* Active status switch styling */
 .form-check-input:checked {
-    background-color: #238636;
-    border-color: #238636;
+    background-color: #28a745;
+    border-color: #28a745;
 }
 
 /* Image preview container */
 #previewImage {
     max-height: 100px;
     object-fit: contain;
-    background-color: #0d1117;
-    border: 1px solid #30363d;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
     padding: 2px;
     margin-top: 0.5rem;
 }
@@ -247,29 +246,29 @@ header, footer {
 /* Card styling */
 .card {
     border-radius: 0.25rem;
-    border: 1px solid #30363d;
-    background-color: #161b22;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #dee2e6;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin-bottom: 1rem;
 }
 
 .card-header {
-    background-color: #0d1117;
-    border-bottom: 1px solid #30363d;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
     padding: 0.75rem 1rem;
     font-weight: 500;
-    color: #e6edf3;
+    color: #212529;
 }
 
 .card-body {
     padding: 1rem;
-    color: #e6edf3;
+    color: #212529;
 }
 
 /* Loading indicator */
 #loadingIndicator {
     padding: 10px;
-    color: #666;
+    color: #6c757d;
 }
 
 /* Pesticide list styling */
@@ -278,33 +277,32 @@ header, footer {
 }
 
 #pesticideList li {
-    background-color: #fff;
-    border: 1px solid #e9ecef;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
     padding: 0.5rem 0.75rem;
     margin-bottom: 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.9rem;
 }
 
-/* Overriding some remaining light-theme styles */
-
 /* Treatment styling */
 .pesticide-name {
     font-weight: 500;
-    color: #e6edf3;
+    color: #212529;
 }
 
 /* Empty state icons */
 #noDetectionInfo, #noSimulationInfo {
-    color: #6c757d;
+    color: #adb5bd;
     font-size: 3rem;
-    opacity: 0.3;
+    opacity: 0.5;
     margin: 1rem 0;
 }
 
 #noDetectionInfo h5, #noSimulationInfo h5 {
     font-size: 1.1rem;
     margin-top: 0.5rem;
+    color: #495057;
 }
 
 /* Alert styling */
@@ -335,45 +333,45 @@ header, footer {
 .form-control, .form-select {
     border-radius: 0.25rem;
     font-size: 0.9rem;
-    background-color: #0d1117;
-    border-color: #30363d;
-    color: #e6edf3;
+    background-color: #ffffff;
+    border-color: #ced4da;
+    color: #212529;
 }
 
 .form-control:focus, .form-select:focus {
-    background-color: #0d1117;
-    border-color: #6e7681;
-    color: #e6edf3;
-    box-shadow: 0 0 0 0.25rem rgba(56, 139, 253, 0.1);
+    background-color: #ffffff;
+    border-color: #86b7fe;
+    color: #212529;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .form-label {
     font-size: 0.9rem;
     margin-bottom: 0.25rem;
     font-weight: 500;
-    color: #8b949e;
+    color: #495057;
 }
 
 /* Input placeholder colors */
 ::placeholder {
-    color: #6e7681 !important;
+    color: #adb5bd !important;
     opacity: 1;
 }
 
 /* Button styling */
 .btn-primary {
-    background-color: #238636;
-    border-color: #238636;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
 }
 
 .btn-primary:hover {
-    background-color: #2ea043;
-    border-color: #2ea043;
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
 }
 
 /* Match styling */
 .match-badge {
-    background-color: #1f6feb !important;
+    background-color: #0d6efd !important;
     color: white;
     font-size: 0.75rem;
     padding: 0.25rem 0.5rem;
@@ -381,7 +379,7 @@ header, footer {
 
 /* Severity styling */
 .severity-badge {
-    background-color: #f0883e;
+    background-color: #fd7e14;
     display: inline-block;
     padding: 0.15rem 0.5rem;
     border-radius: 0.25rem;
@@ -392,7 +390,7 @@ header, footer {
 /* Application rate styling */
 .application-rate {
     display: block;
-    color: #8b949e;
+    color: #6c757d;
     font-size: 0.8rem;
     margin-top: 0.25rem;
     font-style: italic;
@@ -429,7 +427,7 @@ header, footer {
     
     /* Keep panel design consistent */
     .panel-container {
-        border: 1px solid #374151;
+        border: 1px solid #dee2e6;
         margin-right: 0;
     }
     
