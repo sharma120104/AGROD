@@ -2,10 +2,11 @@
 
 /* Canvas styling */
 #simulationCanvas {
-    background-color: var(--bs-dark);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: var(--bs-light);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 100%;
     height: auto;
+    border: 1px solid #dee2e6;
 }
 
 /* Button styling for drone controls */
@@ -25,19 +26,21 @@
 #previewImage {
     max-height: 200px;
     object-fit: contain;
-    background-color: var(--bs-dark);
+    background-color: var(--bs-light);
+    border: 1px solid #dee2e6;
 }
 
 /* Card styling */
 .card {
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: var(--bs-dark);
+    border: 1px solid #dee2e6;
+    background-color: var(--bs-white);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .card-header {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid #dee2e6;
 }
 
 /* Loading indicator */
@@ -47,8 +50,8 @@
 
 /* Pesticide list styling */
 #pesticideList .list-group-item {
-    background-color: var(--bs-dark);
-    border-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bs-white);
+    border-color: #dee2e6;
 }
 
 /* Empty state icons */

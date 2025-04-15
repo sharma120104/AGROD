@@ -8,6 +8,10 @@ from PIL import Image
 from io import BytesIO
 import base64
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -20,8 +24,14 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "default_secret_key")
 
-# Configure the PostgreSQL database
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+# Configure the database
+db_url = os.environ.get("DATABASE_URL")
+if not db_url:
+    # If DATABASE_URL is not set, use SQLite as fallback
+    logger.info("DATABASE_URL not found in environment, using SQLite instead")
+    db_url = "sqlite:///agrod.db"
+    
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_recycle": 300,
     "pool_pre_ping": True,
