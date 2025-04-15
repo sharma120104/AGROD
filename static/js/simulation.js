@@ -42,6 +42,9 @@ function initializeField(data) {
     fieldGrid = data.grid;
     hotspots = data.hotspots;
     
+    // Check if this is a maturity analysis view
+    isMaturityAnalysis = data.is_maturity_analysis || false;
+    
     // Reset drone to center
     dronePosition = { x: Math.floor(gridSize / 2), y: Math.floor(gridSize / 2) };
     
@@ -97,22 +100,30 @@ function drawField() {
         }
     }
     
-    // Draw hotspots (disease areas)
+    // Draw hotspots - either disease areas or coconut trees based on analysis type
     hotspots.forEach(hotspot => {
-        // Yellow circle indicating disease
-        ctx.beginPath();
-        ctx.arc(
-            hotspot.x * cellSize + cellSize / 2,
-            hotspot.y * cellSize + cellSize / 2,
-            cellSize / 3,
-            0,
-            Math.PI * 2
-        );
-        ctx.fillStyle = 'rgba(255, 255, 0, 0.7)';
-        ctx.fill();
-        ctx.strokeStyle = '#FFA000';
-        ctx.lineWidth = 2;
-        ctx.stroke();
+        const centerX = hotspot.x * cellSize + cellSize / 2;
+        const centerY = hotspot.y * cellSize + cellSize / 2;
+        
+        if (isMaturityAnalysis) {
+            // Draw coconut tree with maturity indicator
+            drawCoconutTree(centerX, centerY, hotspot.maturity);
+        } else {
+            // Yellow circle indicating disease (original behavior)
+            ctx.beginPath();
+            ctx.arc(
+                centerX,
+                centerY,
+                cellSize / 3,
+                0,
+                Math.PI * 2
+            );
+            ctx.fillStyle = 'rgba(255, 255, 0, 0.7)';
+            ctx.fill();
+            ctx.strokeStyle = '#FFA000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
     });
     
     // Draw drone
@@ -200,24 +211,45 @@ function sprayPesticide() {
     // Check if drone is over a hotspot
     const hotspot = hotspots.find(h => h.x === dronePosition.x && h.y === dronePosition.y);
     if (hotspot) {
-        // Remove hotspot (treat the disease)
-        hotspots = hotspots.filter(h => h.x !== dronePosition.x || h.y !== dronePosition.y);
-        showAlert(`Successfully sprayed ${formatPesticideName(pesticide)} on diseased area!`, 'success');
-        
-        // Update user progress for hints
-        if (typeof userProgress !== 'undefined') {
-            userProgress.sprayedPesticide = true;
-        }
-        
-        // Show congratulations if all hotspots are treated
-        if (hotspots.length === 0) {
-            setTimeout(() => {
-                showAlert('Great job! You\'ve successfully treated all diseased areas in this field.', 'success');
-            }, 1000);
+        if (isMaturityAnalysis) {
+            // For coconut trees, don't "treat" them but inform about maturity
+            let message = '';
+            
+            if (hotspot.maturity === 'immature') {
+                message = 'This coconut tree is still immature. No action needed at this time.';
+            } else if (hotspot.maturity === 'mature') {
+                message = 'This coconut tree is mature but not yet ready for harvest. Continue monitoring.';
+            } else if (hotspot.maturity === 'ready_for_harvest') {
+                message = 'This coconut tree is ready for harvest! Coconuts can be collected now.';
+            } else {
+                message = 'Coconut tree examined. Assessment complete.';
+            }
+            
+            showAlert(message, 'info');
+        } else {
+            // For disease hotspots, remove them (treat the disease)
+            hotspots = hotspots.filter(h => h.x !== dronePosition.x || h.y !== dronePosition.y);
+            showAlert(`Successfully sprayed ${formatPesticideName(pesticide)} on diseased area!`, 'success');
+            
+            // Update user progress for hints
+            if (typeof userProgress !== 'undefined') {
+                userProgress.sprayedPesticide = true;
+            }
+            
+            // Show congratulations if all hotspots are treated
+            if (hotspots.length === 0) {
+                setTimeout(() => {
+                    showAlert('Great job! You\'ve successfully treated all diseased areas in this field.', 'success');
+                }, 1000);
+            }
         }
     } else {
-        // Inform user they're not over a disease spot
-        showAlert('No disease detected at this location. Move to a yellow spot to spray effectively.', 'info');
+        // Inform user they're not over a hotspot
+        if (isMaturityAnalysis) {
+            showAlert('No coconut tree at this location. Move to a tree to examine it.', 'info');
+        } else {
+            showAlert('No disease detected at this location. Move to a yellow spot to spray effectively.', 'info');
+        }
     }
 }
 
@@ -285,4 +317,97 @@ function formatPesticideName(code) {
         .split('_')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
+}
+
+// Draw a coconut tree with maturity indicator
+function drawCoconutTree(x, y, maturityLevel) {
+    // Set colors based on maturity level
+    let trunkColor = '#8B4513'; // Brown
+    let leafColor = '#2E7D32';  // Dark green
+    let coconutColor = '#F5F5DC'; // Light beige
+    
+    // Adjust colors based on maturity
+    if (maturityLevel === 'immature') {
+        leafColor = '#4CAF50'; // Lighter green for young trees
+        coconutColor = '#A5D6A7'; // Light green coconuts
+    } else if (maturityLevel === 'mature') {
+        leafColor = '#2E7D32'; // Darker green
+        coconutColor = '#CDDC39'; // Yellowish green
+    } else if (maturityLevel === 'ready_for_harvest') {
+        leafColor = '#1B5E20'; // Even darker green
+        coconutColor = '#8B4513'; // Brown coconuts ready for harvest
+    }
+    
+    // Draw trunk
+    ctx.beginPath();
+    ctx.moveTo(x, y + cellSize * 0.3);
+    ctx.lineTo(x - cellSize * 0.1, y);
+    ctx.lineTo(x + cellSize * 0.1, y);
+    ctx.closePath();
+    ctx.fillStyle = trunkColor;
+    ctx.fill();
+    ctx.strokeStyle = '#5D4037';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    
+    // Draw palm leaves (fronds)
+    const numLeaves = 6;
+    const leafLength = cellSize * 0.4;
+    
+    for (let i = 0; i < numLeaves; i++) {
+        const angle = (i * Math.PI * 2) / numLeaves;
+        const leafEndX = x + Math.cos(angle) * leafLength;
+        const leafEndY = y + Math.sin(angle) * leafLength;
+        
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(leafEndX, leafEndY);
+        ctx.strokeStyle = leafColor;
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        
+        // Draw leaf tip
+        ctx.beginPath();
+        ctx.arc(leafEndX, leafEndY, cellSize * 0.05, 0, Math.PI * 2);
+        ctx.fillStyle = leafColor;
+        ctx.fill();
+    }
+    
+    // Draw coconuts (only on mature trees)
+    if (maturityLevel === 'mature' || maturityLevel === 'ready_for_harvest') {
+        const numCoconuts = 3;
+        const coconutRadius = cellSize * 0.08;
+        const coconutDistance = cellSize * 0.2;
+        
+        for (let i = 0; i < numCoconuts; i++) {
+            const coconutAngle = (i * Math.PI * 2) / numCoconuts;
+            const coconutX = x + Math.cos(coconutAngle) * coconutDistance;
+            const coconutY = y + Math.sin(coconutAngle) * coconutDistance;
+            
+            ctx.beginPath();
+            ctx.arc(coconutX, coconutY, coconutRadius, 0, Math.PI * 2);
+            ctx.fillStyle = coconutColor;
+            ctx.fill();
+            ctx.strokeStyle = '#5D4037';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+    }
+    
+    // Add a highlight indicator for the maturity level
+    let indicatorColor = '#2196F3'; // Blue for immature
+    if (maturityLevel === 'mature') {
+        indicatorColor = '#FF9800'; // Orange for mature
+    } else if (maturityLevel === 'ready_for_harvest') {
+        indicatorColor = '#4CAF50'; // Green for ready to harvest
+    }
+    
+    // Draw indicator at the base of the tree
+    ctx.beginPath();
+    ctx.arc(x, y + cellSize * 0.3, cellSize * 0.1, 0, Math.PI * 2);
+    ctx.fillStyle = indicatorColor;
+    ctx.fill();
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 1;
+    ctx.stroke();
 }
