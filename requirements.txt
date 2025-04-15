@@ -2,3 +2,4 @@ Flask
 Flask_SQLAlchemy
 python-dotenv
 numpy
+Pillow
