@@ -26,12 +26,12 @@ const hints = {
     cropType: "Make sure to select the right crop type before analysis.",
     analysis: "After analysis, you'll see potential diseases with confidence scores.",
     coconutMaturity: "For coconut trees, the system will analyze maturity level, count coconuts, and indicate harvest readiness.",
-    simulation: "Activate the drone simulation to practice applying pesticides or inspect coconut trees.",
-    droneControls: "Use arrow keys or buttons to move the drone over the field.",
+    simulation: "Activate the AGROD simulation to practice applying pesticides or inspect coconut trees.",
+    droneControls: "Use arrow keys or buttons to move the AGROD over the field.",
     pesticide: "Select an appropriate pesticide before spraying.",
-    spray: "Position the drone over a yellow disease spot and click spray.",
+    spray: "Position the AGROD over a yellow disease spot and click spray.",
     inspectionTool: "Select an inspection tool to analyze coconut tree maturity and harvest readiness.",
-    coconutInspection: "Move the drone to each coconut tree and press the inspection button to check its maturity level.",
+    coconutInspection: "Move the AGROD to each coconut tree and press the inspection button to check its maturity level.",
     maturityLevels: "Tree maturity is shown with colors: blue (immature), orange (mature), green (ready for harvest).",
     coconutCount: "The analysis provides the estimated number of coconuts on each tree."
 };
