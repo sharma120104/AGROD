@@ -141,6 +141,10 @@ function resetDetectionState() {
         `;
     }
     
+    // Make sure loading indicator and text are hidden
+    loadingIndicator.classList.add('d-none');
+    document.getElementById('loadingText').classList.add('d-none');
+    
     // Reset simulation state
     simulationToggle.checked = false;
     simulationToggle.disabled = true;
@@ -185,8 +189,9 @@ function analyzeImage() {
         return response.json();
     })
     .then(data => {
-        // Hide loading indicator
+        // Hide loading indicator and text
         loadingIndicator.classList.add('d-none');
+        document.getElementById('loadingText').classList.add('d-none');
         analyzeBtn.disabled = false;
         
         // Process results
@@ -194,7 +199,9 @@ function analyzeImage() {
     })
     .catch(error => {
         console.error('Error:', error);
+        // Hide loading indicator and text
         loadingIndicator.classList.add('d-none');
+        document.getElementById('loadingText').classList.add('d-none');
         analyzeBtn.disabled = false;
         showAlert('Error analyzing image: ' + error.message, 'danger');
     });
