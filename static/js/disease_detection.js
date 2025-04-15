@@ -159,6 +159,8 @@ function analyzeImage() {
     
     // Show loading indicator
     loadingIndicator.classList.remove('d-none');
+    // Show the loading text only when actually analyzing
+    document.getElementById('loadingText').classList.remove('d-none');
     analyzeBtn.disabled = true;
     
     // Prepare data
