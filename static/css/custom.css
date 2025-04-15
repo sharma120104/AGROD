@@ -30,10 +30,10 @@ header, footer {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* App container styling - creates dark-mode style layout with white panels */
+/* App container styling - creates dark-mode style layout with panels */
 .app-container {
     padding: 1rem 0;
-    background-color: #1a1d21;
+    background-color: #0d1117;
     min-height: calc(100vh - 150px);
 }
 
@@ -46,9 +46,9 @@ header, footer {
 
 /* Panel styling to match the image */
 .panel-container {
-    background-color: #fff;
+    background-color: #161b22;
     border-radius: 0;
-    border: 1px solid #374151;
+    border: 1px solid #30363d;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     margin-bottom: 0;
     height: 100%;
@@ -57,12 +57,11 @@ header, footer {
 }
 
 .panel-header {
-    background-color: #1f2937;
+    background-color: #0d1117;
     color: white;
     padding: 0.75rem 1rem;
     font-weight: 500;
-    border-bottom: 1px solid #374151;
-    text-align: center;
+    border-bottom: 1px solid #30363d;
 }
 
 .panel-header h5 {
@@ -75,23 +74,23 @@ header, footer {
     padding: 1rem;
     flex-grow: 1;
     overflow-y: auto;
-    background-color: #fff;
+    background-color: #161b22;
+    color: #e6edf3;
 }
 
 /* Left panel customization */
 .left-panel {
     border-right: none;
-    text-align: center;
 }
 
 .left-panel .panel-body {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .left-panel .form-label {
     align-self: flex-start;
+    color: #8b949e;
 }
 
 .left-panel .mb-3 {
@@ -111,32 +110,79 @@ header, footer {
 
 /* Disease section styling */
 .disease-section {
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
+    background-color: #0d1117;
+    border: 1px solid #30363d;
     border-radius: 0.25rem;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .disease-header {
-    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #30363d;
     padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.disease-header h6 {
+    margin-bottom: 0;
+    color: #e6edf3;
+    font-weight: 600;
+}
+
+.detection-results-header {
+    margin-bottom: 1rem;
+    color: #8b949e;
+}
+
+.detection-results-header h6 {
+    color: #e6edf3;
     margin-bottom: 0.5rem;
 }
 
+.detection-results-header p {
+    color: #8b949e;
+    font-size: 0.8rem;
+}
+
 .recommended-treatments {
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
+    margin-top: 1rem;
+}
+
+.recommended-treatments h6 {
+    color: #e6edf3;
+    margin-bottom: 1rem;
+}
+
+/* Treatment card styling */
+.treatment-card {
+    background-color: #0d1117;
+    border: 1px solid #30363d;
     border-radius: 0.25rem;
     padding: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.treatment-card h6 {
+    color: #e6edf3;
+    margin-bottom: 0.5rem;
+}
+
+.treatment-card p {
+    color: #8b949e;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
 }
 
 /* Canvas styling */
 #simulationCanvas {
-    background-color: #1f2937;
+    background-color: #238636;
     max-width: 100%;
     height: auto;
     border-radius: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Button styling for drone controls */
@@ -146,6 +192,9 @@ header, footer {
     padding: 6px;
     margin: 2px;
     border-radius: 4px;
+    background-color: #21262d;
+    border-color: #30363d;
+    color: #c9d1d9;
 }
 
 #droneControls #spray {
@@ -153,35 +202,68 @@ header, footer {
     height: 36px;
     font-weight: 500;
     font-size: 0.85rem;
+    background-color: #da3633;
+    border-color: #da3633;
+}
+
+#droneControls #spray:hover {
+    background-color: #f85149;
+    border-color: #f85149;
+}
+
+/* Simulation container */
+#simulationContainer {
+    margin-bottom: 1rem;
+}
+
+/* Inactive simulation message */
+#noSimulationInfo {
+    color: #8b949e;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+#noSimulationInfo p {
+    color: #8b949e;
+    margin-bottom: 0.5rem;
+}
+
+/* Active status switch styling */
+.form-check-input:checked {
+    background-color: #238636;
+    border-color: #238636;
 }
 
 /* Image preview container */
 #previewImage {
-    max-height: 150px;
+    max-height: 100px;
     object-fit: contain;
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    padding: 3px;
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    padding: 2px;
+    margin-top: 0.5rem;
 }
 
 /* Card styling */
 .card {
     border-radius: 0.25rem;
-    border: 1px solid #e9ecef;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #30363d;
+    background-color: #161b22;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 1rem;
 }
 
 .card-header {
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;
+    background-color: #0d1117;
+    border-bottom: 1px solid #30363d;
     padding: 0.75rem 1rem;
     font-weight: 500;
+    color: #e6edf3;
 }
 
 .card-body {
     padding: 1rem;
+    color: #e6edf3;
 }
 
 /* Loading indicator */
@@ -204,23 +286,12 @@ header, footer {
     font-size: 0.9rem;
 }
 
-/* Detection results header */
-.detection-results-header {
-    border-bottom: 1px solid #e9ecef;
-    padding-bottom: 0.5rem;
-}
+/* Overriding some remaining light-theme styles */
 
 /* Treatment styling */
 .pesticide-name {
     font-weight: 500;
-    color: #1a3d66;
-}
-
-.application-rate {
-    font-size: 0.85rem;
-    color: #6c757d;
-    display: block;
-    margin-top: 0.25rem;
+    color: #e6edf3;
 }
 
 /* Empty state icons */
@@ -264,12 +335,67 @@ header, footer {
 .form-control, .form-select {
     border-radius: 0.25rem;
     font-size: 0.9rem;
+    background-color: #0d1117;
+    border-color: #30363d;
+    color: #e6edf3;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #0d1117;
+    border-color: #6e7681;
+    color: #e6edf3;
+    box-shadow: 0 0 0 0.25rem rgba(56, 139, 253, 0.1);
 }
 
 .form-label {
     font-size: 0.9rem;
     margin-bottom: 0.25rem;
     font-weight: 500;
+    color: #8b949e;
+}
+
+/* Input placeholder colors */
+::placeholder {
+    color: #6e7681 !important;
+    opacity: 1;
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: #238636;
+    border-color: #238636;
+}
+
+.btn-primary:hover {
+    background-color: #2ea043;
+    border-color: #2ea043;
+}
+
+/* Match styling */
+.match-badge {
+    background-color: #1f6feb !important;
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Severity styling */
+.severity-badge {
+    background-color: #f0883e;
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    color: #ffffff;
+}
+
+/* Application rate styling */
+.application-rate {
+    display: block;
+    color: #8b949e;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    font-style: italic;
 }
 
 /* Responsive adjustments */

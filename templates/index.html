@@ -20,13 +20,20 @@
                     
                     <div class="mb-3">
                         <label for="imageUpload" class="form-label">Field Image</label>
-                        <div class="input-group">
-                            <input type="file" class="form-control form-control-sm" id="imageUpload" accept="image/*">
+                        <div class="custom-file-container">
+                            <div class="input-group">
+                                <input type="file" class="form-control form-control-sm" id="imageUpload" accept="image/*">
+                            </div>
+                            <div class="file-info small text-muted mt-1">
+                                <span id="fileNameDisplay">No file selected</span>
+                            </div>
                         </div>
-                        <div class="d-grid gap-2 mt-2">
+                        
+                        <div class="d-grid gap-2 mt-3">
                             <button class="btn btn-primary btn-sm" id="analyzeBtn" type="button">Analyze</button>
                         </div>
-                        <div class="mt-2">
+                        
+                        <div class="upload-info mt-3">
                             <small class="text-muted">Upload an image of your crop field</small>
                             <button id="hintButton" class="btn btn-sm btn-outline-info mt-2 d-none float-end" type="button" data-bs-toggle="tooltip" title="Click for a hint">
                                 <i class="fas fa-question-circle"></i>
@@ -34,8 +41,8 @@
                         </div>
                     </div>
                     
-                    <div class="text-center my-3">
-                        <img id="previewImage" class="img-fluid d-none border rounded" alt="Field Preview">
+                    <div class="image-preview-container text-center my-3">
+                        <img id="previewImage" class="img-fluid d-none" alt="Field Preview">
                     </div>
                     
                     <div id="loadingIndicator" class="d-none">
@@ -58,28 +65,46 @@
                 </div>
                 <div class="panel-body">
                     <div id="diseaseInfo" class="d-none">
-                        <div class="detection-results-header mb-3">
+                        <div class="detection-results-header">
                             <h6>Disease Detection Results</h6>
-                            <p class="text-muted small mb-0">Multiple potential diseases detected. Ordered by match confidence.</p>
+                            <p>Multiple potential diseases detected. Ordered by match confidence.</p>
                         </div>
                         
-                        <div class="disease-section mb-4">
-                            <div class="disease-header d-flex justify-content-between align-items-center">
-                                <h6 id="diseaseName" class="mb-0">Cotton Leaf Spot</h6>
-                                <span class="badge bg-primary">95% Match</span>
+                        <div class="disease-section">
+                            <div class="disease-header">
+                                <h6 id="diseaseName">Cotton Leaf Spot</h6>
+                                <span class="match-badge">95% Match</span>
                             </div>
-                            <p class="card-text small mt-2" id="diseaseDescription">Upload and analyze an image to detect diseases.</p>
+                            <p id="diseaseDescription">Cotton leaf spot is characterized by small, circular spots on leaves that can lead to defoliation if left untreated. The disease is caused by the fungus Alternaria macrospora.</p>
                             
-                            <div class="disease-severity my-2">
-                                <span class="small text-muted">Severity:</span> <span class="fw-medium" id="diseaseSeverity">Moderate</span>
+                            <div class="my-2">
+                                <span>Severity:</span> <span class="severity-badge" id="diseaseSeverity">Moderate</span>
                             </div>
                         </div>
                         
-                        <div class="recommended-treatments">
-                            <h6>Recommended Treatments:</h6>
-                            <ul id="pesticideList" class="list-unstyled">
-                                <!-- Pesticide recommendations will appear here -->
-                            </ul>
+                        <h6>Recommended Treatments:</h6>
+                        
+                        <div id="pesticideList">
+                            <!-- Treatments will be dynamically inserted here -->
+                            <div class="treatment-card">
+                                <h6 class="pesticide-name">Mancozeb</h6>
+                                <p>Broad-spectrum fungicide that prevents spore germination. Apply at 2-3 kg/ha.</p>
+                                <span class="application-rate">Application Rate: See product label</span>
+                            </div>
+                            
+                            <div class="treatment-card">
+                                <h6 class="pesticide-name">Propiconazole</h6>
+                                <p>Systemic fungicide that stops fungal growth. Apply at 500-750 ml/ha.</p>
+                                <span class="application-rate">Application Rate: See product label</span>
+                            </div>
+                        </div>
+                        
+                        <div class="disease-section mt-3">
+                            <div class="disease-header">
+                                <h6>Cotton Boll Rot</h6>
+                                <span class="match-badge">82% Match</span>
+                            </div>
+                            <p>Cotton boll rot causes discoloration and decay of cotton bolls, leading to significant yield losses. It's typically caused by various fungi including Diplodia, Fusarium, and Colletotrichum species.</p>
                         </div>
                     </div>
                     
@@ -103,8 +128,8 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div class="text-center mb-3" id="simulationContainer">
-                        <canvas id="simulationCanvas" width="300" height="300" class="border rounded"></canvas>
+                    <div class="text-center" id="simulationContainer">
+                        <canvas id="simulationCanvas" width="300" height="300"></canvas>
                     </div>
                     
                     <div id="droneControls" class="d-none">
@@ -139,15 +164,17 @@
                             </div>
                         </div>
                         
-                        <div class="mt-3 alert alert-info py-2 px-3" role="alert">
-                            <i class="fas fa-info-circle me-2"></i>
-                            <small>Move the drone to diseased areas and spray the recommended pesticide.</small>
+                        <div class="mt-3 py-2 px-3" role="alert">
+                            <small>
+                                <i class="fas fa-info-circle me-2"></i>
+                                Move the drone to diseased areas and spray the recommended pesticide.
+                            </small>
                         </div>
                     </div>
                     
                     <div id="noSimulationInfo" class="text-center py-4">
-                        <p class="text-muted mb-2">AGROD Inactive</p>
-                        <p id="simulationDescription" class="text-muted small">Activate drone simulation to practice applying pesticides to diseased areas</p>
+                        <p class="text-white-50 mb-1">AGROD Inactive</p>
+                        <p id="simulationDescription" class="text-white-50 small">Activate drone simulation to practice applying pesticides to diseased areas</p>
                     </div>
                 </div>
             </div>
