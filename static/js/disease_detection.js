@@ -128,8 +128,20 @@ function handleImageUpload(event) {
 
 // Reset detection state
 function resetDetectionState() {
-    diseaseInfo.classList.add('d-none');
-    noDetectionInfo.classList.remove('d-none');
+    // Get the panel body
+    const panelBody = document.querySelector('.middle-panel .panel-body');
+    if (panelBody) {
+        // Clear any disease info and show the "no detection" message
+        panelBody.innerHTML = `
+            <div id="noDetectionInfo" class="text-center py-5">
+                <i class="fas fa-seedling text-success fa-4x mb-3"></i>
+                <h5>No Analysis Yet</h5>
+                <p class="text-muted">Upload and analyze a field image to get disease information.</p>
+            </div>
+        `;
+    }
+    
+    // Reset simulation state
     simulationToggle.checked = false;
     simulationToggle.disabled = true;
     droneControls.classList.add('d-none');
@@ -188,22 +200,65 @@ function analyzeImage() {
 
 // Process detection results
 function processDetectionResults(data) {
-    detectedDiseases = data.diseases;
-    fieldData = data.field_data;
+    detectedDiseases = data.diseases || [];
+    fieldData = data.field_data || null;
     
-    // Update disease information
-    diseaseInfo.classList.remove('d-none');
+    // Create a new disease info container
+    const newDiseaseInfo = document.createElement('div');
+    newDiseaseInfo.id = 'diseaseInfo';
+    
+    // Hide the "no detection" message
     noDetectionInfo.classList.add('d-none');
     
+    // Create the detection results header
+    const detectionHeader = document.createElement('div');
+    detectionHeader.className = 'detection-results-header';
+    detectionHeader.innerHTML = '<h6>Disease Detection Results</h6>';
+    newDiseaseInfo.appendChild(detectionHeader);
+
     // Check if any disease was detected
     if (detectedDiseases.includes('healthy')) {
-        diseaseName.textContent = 'No Disease Detected';
-        diseaseDescription.textContent = 'Your crop appears to be healthy.';
-        pesticideList.innerHTML = '<li class="list-group-item">No pesticides needed at this time.</li>';
+        const healthySection = document.createElement('div');
+        healthySection.className = 'disease-section';
+        healthySection.innerHTML = `
+            <div class="disease-header">
+                <h6>No Disease Detected</h6>
+                <span class="match-badge">100% Match</span>
+            </div>
+            <p>Your crop appears to be healthy.</p>
+            <div class="my-2">
+                <span>Severity:</span> <span class="severity-badge">None</span>
+            </div>
+        `;
+        newDiseaseInfo.appendChild(healthySection);
+        
+        const treatmentHeader = document.createElement('h6');
+        treatmentHeader.textContent = 'Recommended Treatments:';
+        newDiseaseInfo.appendChild(treatmentHeader);
+        
+        const treatmentList = document.createElement('div');
+        treatmentList.id = 'pesticideList';
+        treatmentList.innerHTML = '<div class="treatment-card"><h6>No Treatment Needed</h6><p>Your plants appear healthy. Continue regular monitoring.</p></div>';
+        newDiseaseInfo.appendChild(treatmentList);
     } else if (detectedDiseases.includes('error')) {
-        diseaseName.textContent = 'Detection Error';
-        diseaseDescription.textContent = 'There was an error processing your image. Please try again with a clearer image.';
-        pesticideList.innerHTML = '<li class="list-group-item">Unable to provide recommendations.</li>';
+        const errorSection = document.createElement('div');
+        errorSection.className = 'disease-section';
+        errorSection.innerHTML = `
+            <div class="disease-header">
+                <h6>Detection Error</h6>
+            </div>
+            <p>There was an error processing your image. Please try again with a clearer image.</p>
+        `;
+        newDiseaseInfo.appendChild(errorSection);
+        
+        const treatmentHeader = document.createElement('h6');
+        treatmentHeader.textContent = 'Recommended Treatments:';
+        newDiseaseInfo.appendChild(treatmentHeader);
+        
+        const treatmentList = document.createElement('div');
+        treatmentList.id = 'pesticideList';
+        treatmentList.innerHTML = '<div class="treatment-card"><h6>Unable to provide recommendations</h6><p>Please try again with a different image.</p></div>';
+        newDiseaseInfo.appendChild(treatmentList);
     } else {
         // Create a div to hold disease information
         const diseaseResultsContainer = document.createElement('div');
@@ -337,15 +392,14 @@ function processDetectionResults(data) {
             diseaseResultsContainer.appendChild(diseaseCard);
         });
         
-        // Clear and update disease info in the DOM
-        diseaseName.textContent = 'Disease Detection Results';
-        diseaseDescription.textContent = data.multiple_detections 
-            ? 'Multiple potential diseases detected. Ordered by match confidence.' 
-            : 'Single disease detected.';
+        // Update the header text
+        detectionHeader.innerHTML = '<h6>Disease Detection Results</h6><p>' + 
+            (data.multiple_detections 
+                ? 'Multiple potential diseases detected. Ordered by match confidence.' 
+                : 'Single disease detected.') + '</p>';
         
-        // Replace the pesticide list with our new container
-        pesticideList.innerHTML = '';
-        pesticideList.appendChild(diseaseResultsContainer);
+        // Add the disease container to the new disease info
+        newDiseaseInfo.appendChild(diseaseResultsContainer);
         
         // Update pesticide dropdown for simulation
         // Combine all pesticides from all detected diseases
@@ -390,6 +444,15 @@ function processDetectionResults(data) {
     const hintButton = document.getElementById('hintButton');
     if (hintButton) {
         hintButton.classList.remove('d-none');
+    }
+    
+    // Get the panel body
+    const panelBody = document.querySelector('.middle-panel .panel-body');
+    if (panelBody) {
+        // Clear old content
+        panelBody.innerHTML = '';
+        // Add the new content
+        panelBody.appendChild(newDiseaseInfo);
     }
 }
 
